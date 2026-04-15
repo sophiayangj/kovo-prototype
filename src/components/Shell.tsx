@@ -88,7 +88,7 @@ export default function Shell() {
             className={`w-full text-left px-3 py-2 rounded-lg text-[14px] transition-colors ${
               activeTab === tab.id
                 ? "bg-[var(--surface)] font-medium text-[var(--foreground)]"
-                : "text-[var(--muted)] hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
+                : "text-[var(--muted)] hover:bg-[#e5e7eb] hover:text-[var(--foreground)]"
             }`}
           >
             {tab.label}
