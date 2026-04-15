@@ -344,25 +344,15 @@ export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasA
                     </svg>
                   </motion.button>
                 </div>
-                {preOrderItems.map((item, i) => (
-                  <div key={item.name} className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-[40px] h-[40px] flex items-center justify-center">
-                        <Image src={item.image} alt={item.name} width={40} height={40} className="object-contain" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-white text-[15px] font-medium leading-[1.3]">{item.name}</span>
-                        <span className="text-white/50 text-[13px] leading-[1.3]">Qty: {item.qty}</span>
-                      </div>
+                {preOrderItems.map((item) => (
+                  <div key={item.name} className="flex items-center gap-3">
+                    <div className="w-[40px] h-[40px] flex items-center justify-center">
+                      <Image src={item.image} alt={item.name} width={40} height={40} className="object-contain" />
                     </div>
-                    <span className="text-white/50 text-[14px] leading-[1.3]">{item.price}</span>
+                    <span className="text-white text-[15px] font-medium leading-[1.3]">{item.name}</span>
+                    <span className="text-white/50 text-[13px] leading-[1.3]">x{item.qty}</span>
                   </div>
                 ))}
-                <div className="h-px bg-white/10" />
-                <div className="flex items-center justify-between">
-                  <span className="text-white text-[15px] font-medium">Total</span>
-                  <span className="text-white text-[15px]">$9</span>
-                </div>
               </div>
             </motion.div>
 
