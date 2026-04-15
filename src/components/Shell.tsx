@@ -80,7 +80,7 @@ export default function Shell() {
     <div className="min-h-screen flex">
       {/* Left sidebar nav */}
       <nav className="w-[200px] flex-shrink-0 border-r border-[var(--border)] p-6 flex flex-col gap-1 sticky top-0 h-screen">
-        <span className="text-[13px] font-semibold text-[var(--foreground)] tracking-tight mb-4">Kovo</span>
+        <span className="text-[13px] font-semibold text-[var(--foreground)] tracking-tight mb-4">Content</span>
         {shellTabs.map((tab) => (
           <button
             key={tab.id}
