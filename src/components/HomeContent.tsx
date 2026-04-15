@@ -89,8 +89,8 @@ function FlightSheet({ preOrder = false }: { preOrder?: boolean }) {
           <div className="flex flex-col justify-between gap-2">
             <div className="relative h-[18px] w-[210px]">
               <div className="absolute left-0 top-[8px] w-[210px] h-[2px] bg-white/10 rounded-full" />
-              <div className="absolute left-0 top-[8px] w-[50px] h-[2px] bg-[#4a7ff7] rounded-full" />
-              <div className="absolute left-[40px] top-1/2 -translate-y-1/2">
+              <div className={`absolute left-0 top-[8px] h-[2px] bg-[#4a7ff7] rounded-full ${preOrder ? "w-0" : "w-[50px]"}`} />
+              <div className={`absolute top-1/2 -translate-y-1/2 ${preOrder ? "left-0" : "left-[40px]"}`}>
                 <Image src="/images/icon-plane-filled.svg" alt="" width={20} height={20} />
               </div>
             </div>
