@@ -218,9 +218,9 @@ export default function ConfirmationContent({ selectedDrink, onBackHome }: Confi
               exit={{ opacity: 0, height: 0 }}
               className="flex flex-col gap-4"
             >
-              <div className="flex items-center justify-between">
-                <h2 className="text-white text-[20px] font-medium leading-[1.3]">Add to order</h2>
-                <span className="text-[#788284] text-[16px] leading-[1.3]">{countdownText}</span>
+              <div className="flex items-center gap-2">
+                <Image src="/images/icon-clock.svg" alt="" width={16} height={16} />
+                <span className="text-white text-[16px] font-medium leading-[1.3]">{countdownText} left to add items</span>
               </div>
               <div className="flex gap-3 overflow-x-auto">
                 {upsellItems.map((item) => {
