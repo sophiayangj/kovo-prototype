@@ -291,8 +291,6 @@ export default function ConfirmationContent({ selectedDrink, onBackHome }: Confi
             </motion.div>
           )}
         </AnimatePresence>
-
-        <div className="h-px bg-white/10" />
       </motion.div>
 
       {/* Back to home button — only at step 1+ */}
