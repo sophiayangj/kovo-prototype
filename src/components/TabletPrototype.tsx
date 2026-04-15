@@ -412,7 +412,7 @@ function TabletConfirmation({ selectedDrink, onBackHome, isLandscape }: { select
             <motion.div
               className="absolute top-[27px] left-[80px] h-[2px] rounded-full bg-[#e31837]"
               animate={{ width: step === 0 ? 0 : step === 1 ? "calc(50% - 40px)" : "calc(100% - 160px)" }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
             />
             {steps.map((s, i) => (
               <div key={s.label} className="flex flex-col items-center gap-3 relative z-10 w-[80px]">

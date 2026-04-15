@@ -31,7 +31,7 @@ const staggerContainer = {
 };
 const fadeUp = {
   initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
 };
 
 const SHEET_COLLAPSED = 133;
@@ -201,7 +201,7 @@ function HomeOrderTracker() {
           animate={{
             width: step === 0 ? 0 : step === 1 ? "calc(50% - 24px)" : "calc(100% - 96px)",
           }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
         />
         {orderSteps.map((s, i) => {
           const isActive = i <= step;
@@ -224,7 +224,7 @@ function HomeOrderTracker() {
                     backgroundColor: isActive ? "#e31837" : "rgba(93,106,150,0.5)",
                     scale: isCurrent ? 1 : 0.95,
                   }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
                   style={{
                     boxShadow: isActive ? "0 0 0 3px rgba(102,52,100,0.6), 0 4px 12px rgba(227,24,55,0.3)" : "none",
                   }}

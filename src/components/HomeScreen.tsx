@@ -33,7 +33,7 @@ const staggerContainer = {
 
 const fadeUp = {
   initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
 };
 
 const SHEET_COLLAPSED = 133;
