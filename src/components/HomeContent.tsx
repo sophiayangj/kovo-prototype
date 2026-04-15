@@ -367,11 +367,8 @@ export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasA
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <span className="text-white text-[18px] font-medium leading-[1.3]">Your order</span>
-                  <motion.button onClick={onMenuTab} whileTap={{ scale: 0.98 }} className="flex items-center gap-1">
+                  <motion.button onClick={onMenuTab} whileTap={{ scale: 0.98 }} className="bg-[#323b62] h-[32px] px-3 rounded flex items-center">
                     <span className="text-white text-[14px] font-medium">Add items</span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path d="M5 8L8 11L11 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="rotate-[-90deg] origin-center" />
-                    </svg>
                   </motion.button>
                 </div>
                 {preOrderItems.map((item) => (
