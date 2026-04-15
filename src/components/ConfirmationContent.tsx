@@ -149,7 +149,7 @@ export default function ConfirmationContent({ selectedDrink, onBackHome }: Confi
                     <motion.div
                       className="w-[46px] h-[46px] rounded-full flex items-center justify-center"
                       animate={{
-                        backgroundColor: isActive ? "#e31837" : "rgba(93,106,150,0.5)",
+                        backgroundColor: isActive ? "#e31837" : "#3d4663",
                         scale: isCurrent ? 1 : 0.95,
                       }}
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}

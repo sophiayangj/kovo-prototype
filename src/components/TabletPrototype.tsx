@@ -419,7 +419,7 @@ function TabletConfirmation({ selectedDrink, onBackHome, isLandscape }: { select
                 <motion.div
                   className="w-[46px] h-[46px] rounded-full flex items-center justify-center"
                   animate={{
-                    backgroundColor: i <= step ? "#e31837" : "rgba(93,106,150,0.5)",
+                    backgroundColor: i <= step ? "#e31837" : "#3d4663",
                   }}
                   style={{ boxShadow: i <= step ? "0 0 0 3px rgba(102,52,100,0.6)" : "none" }}
                 >
