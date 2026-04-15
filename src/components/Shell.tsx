@@ -55,6 +55,7 @@ export default function Shell() {
   const [screen, setScreen] = useState<Screen>("home");
   const [selectedDrink, setSelectedDrink] = useState<string | undefined>(undefined);
   const [cartItems, setCartItems] = useState<Array<{ name: string; price: string; image: string; qty: number }>>([]);
+  const [homeMode, setHomeMode] = useState<"default" | "pre-order">("default");
   const [hasActiveOrder, setHasActiveOrder] = useState(false);
   const [orderedDrink, setOrderedDrink] = useState<string>("Coffee");
   const direction = useRef(1);
@@ -133,6 +134,26 @@ export default function Shell() {
       {/* Content */}
       <main className="flex-1 flex items-center justify-center p-6">
         {activeTab === "mobile" && (
+          <div className="flex flex-col items-center gap-4">
+            {/* Prototype mode switcher */}
+            <div className="flex items-center gap-1 bg-[var(--surface)] rounded-lg p-1">
+              <button
+                onClick={() => setHomeMode("default")}
+                className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
+                  homeMode === "default" ? "bg-white text-[var(--foreground)] shadow-sm" : "text-[var(--muted)]"
+                }`}
+              >
+                Default
+              </button>
+              <button
+                onClick={() => setHomeMode("pre-order")}
+                className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
+                  homeMode === "pre-order" ? "bg-white text-[var(--foreground)] shadow-sm" : "text-[var(--muted)]"
+                }`}
+              >
+                Pre-ordered
+              </button>
+            </div>
           <div className="relative w-[393px] h-[852px] bg-[#01061f] rounded-[12px] overflow-hidden font-[system-ui]">
             {/* === STATIC: Status Bar === */}
             <div className="relative z-20 flex items-center justify-between px-6 pt-[21px] pb-[19px]">
@@ -209,6 +230,7 @@ export default function Shell() {
                       }}
                       hasActiveOrder={hasActiveOrder}
                       orderedDrink={orderedDrink}
+                      mode={homeMode}
                     />
                   )}
                   {screen === "menu" && (
@@ -249,6 +271,7 @@ export default function Shell() {
                 delta.com
               </span>
             </div>
+          </div>
           </div>
         )}
 

@@ -176,7 +176,7 @@ function HomeOrderTracker() {
   return (
     <motion.div
       variants={fadeUp}
-      className="rounded-lg p-5 pb-6"
+      className="rounded p-5 pb-6"
       style={{ backgroundImage: "linear-gradient(135deg, rgb(42, 58, 113) 0%, rgb(55, 70, 120) 50%, rgb(62, 78, 132) 100%)" }}
     >
       <AnimatePresence mode="wait">
@@ -255,6 +255,7 @@ interface HomeContentProps {
   onViewCart?: (items: CartItem[]) => void;
   hasActiveOrder?: boolean;
   orderedDrink?: string;
+  mode?: "default" | "pre-order";
 }
 
 const preOrderItems = [
@@ -269,8 +270,7 @@ const paidAddOns = [
   { name: "Cola", price: "Free", image: "/images/cola.png" },
 ];
 
-export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasActiveOrder, orderedDrink }: HomeContentProps) {
-  const [mode, setMode] = useState<"default" | "pre-order">("default");
+export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasActiveOrder, orderedDrink, mode = "default" }: HomeContentProps) {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [editingItem, setEditingItem] = useState<string | null>(null);
   const editTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -318,26 +318,6 @@ export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasA
         initial="initial"
         animate="animate"
       >
-        {/* Mode switcher */}
-        <motion.div variants={fadeUp} className="flex items-center gap-1 bg-[#191c2f] rounded p-1 self-start">
-          <button
-            onClick={() => setMode("default")}
-            className={`px-3 py-1.5 rounded text-[13px] font-medium transition-colors ${
-              mode === "default" ? "bg-[#323b62] text-white" : "text-[#788284]"
-            }`}
-          >
-            Default
-          </button>
-          <button
-            onClick={() => setMode("pre-order")}
-            className={`px-3 py-1.5 rounded text-[13px] font-medium transition-colors ${
-              mode === "pre-order" ? "bg-[#323b62] text-white" : "text-[#788284]"
-            }`}
-          >
-            Pre-ordered
-          </button>
-        </motion.div>
-
         <motion.h1 variants={fadeUp} className="text-white text-[24px] font-medium leading-[1.3]">
           {mode === "pre-order" ? "Welcome aboard, Sophia!" : hasActiveOrder ? "Welcome aboard, Sophia!" : "Welcome, Sophia!"}
         </motion.h1>

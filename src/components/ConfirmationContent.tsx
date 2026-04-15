@@ -98,7 +98,7 @@ export default function ConfirmationContent({ selectedDrink, onBackHome }: Confi
         {/* Status card */}
         <motion.div
           variants={fadeUp}
-          className="rounded-lg p-5 pb-6"
+          className="rounded p-5 pb-6"
           style={{ backgroundImage: "linear-gradient(135deg, rgb(42, 58, 113) 0%, rgb(55, 70, 120) 50%, rgb(62, 78, 132) 100%)" }}
         >
           {/* Title */}
