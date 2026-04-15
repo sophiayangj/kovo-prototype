@@ -77,59 +77,24 @@ export default function Shell() {
   const activeBottomTab = screen === "cart" ? "menu" : screen;
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Shell Header — menu icon with dropdown */}
-      <header className="absolute top-0 left-0 z-30 flex items-center gap-3 px-4 h-12">
-        <div className="relative">
+    <div className="min-h-screen flex">
+      {/* Left sidebar nav */}
+      <nav className="w-[200px] flex-shrink-0 border-r border-[var(--border)] p-6 flex flex-col gap-1 sticky top-0 h-screen">
+        <span className="text-[13px] font-semibold text-[var(--foreground)] tracking-tight mb-4">Kovo</span>
+        {shellTabs.map((tab) => (
           <button
-            onClick={() => setNavOpen(!navOpen)}
-            className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-[var(--surface)] transition-colors"
-            aria-label="Open navigation"
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`w-full text-left px-3 py-2 rounded-lg text-[14px] transition-colors ${
+              activeTab === tab.id
+                ? "bg-[var(--surface)] font-medium text-[var(--foreground)]"
+                : "text-[var(--muted)] hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
+            }`}
           >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <line x1="3" y1="5" x2="17" y2="5" />
-              <line x1="3" y1="10" x2="17" y2="10" />
-              <line x1="3" y1="15" x2="17" y2="15" />
-            </svg>
+            {tab.label}
           </button>
-
-          {/* Dropdown */}
-          <AnimatePresence>
-            {navOpen && (
-              <>
-                <motion.div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setNavOpen(false)}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: -4 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -4 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute top-full left-0 mt-1 z-50 bg-white rounded-lg shadow-lg border border-[var(--border)] py-1 min-w-[180px]"
-                >
-                  {shellTabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => { setActiveTab(tab.id); setNavOpen(false); }}
-                      className={`w-full text-left px-3 py-2 text-sm transition-colors ${
-                        activeTab === tab.id
-                          ? "bg-[var(--surface)] font-medium text-[var(--foreground)]"
-                          : "text-[var(--muted)] hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
-      </header>
+        ))}
+      </nav>
 
       {/* Content */}
       <main className="flex-1 flex items-center justify-center p-6">
