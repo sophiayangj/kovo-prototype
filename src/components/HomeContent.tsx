@@ -37,7 +37,7 @@ const fadeUp = {
 const SHEET_COLLAPSED = 133;
 const SHEET_EXPANDED = 420;
 
-function FlightSheet() {
+function FlightSheet({ preOrder = false }: { preOrder?: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const [sheetHeight, setSheetHeight] = useState(SHEET_COLLAPSED);
   const [dragging, setDragging] = useState(false);
@@ -101,8 +101,17 @@ function FlightSheet() {
           </div>
           <motion.button onClick={toggleSheet} whileTap={{ scale: 0.98 }} className="flex items-center gap-2">
             <div className="flex flex-col gap-1 text-right">
-              <span className="text-[#788284] text-[14px] leading-[1.3]">Arrives in</span>
-              <span className="text-white text-[16px] font-medium leading-[1.3]">2hr 15m</span>
+              {preOrder ? (
+                <>
+                  <span className="text-[#788284] text-[14px] leading-[1.3]">Status</span>
+                  <span className="text-white text-[16px] font-medium leading-[1.3]">Departing soon</span>
+                </>
+              ) : (
+                <>
+                  <span className="text-[#788284] text-[14px] leading-[1.3]">Arrives in</span>
+                  <span className="text-white text-[16px] font-medium leading-[1.3]">2hr 15m</span>
+                </>
+              )}
             </div>
             <motion.svg
               width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -162,50 +171,71 @@ const orderMessages = [
   { title: "Enjoy your order!", subtitle: "Delivered to your seat" },
 ];
 
-function HomeOrderTracker() {
+function HomeOrderTracker({ preOrder = false }: { preOrder?: boolean }) {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
+    if (preOrder) return; // no auto-advance in pre-order mode
     const t1 = setTimeout(() => setStep(1), 4000);
     const t2 = setTimeout(() => setStep(2), 8000);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
+  }, [preOrder]);
 
-  const msg = orderMessages[step];
+  const msg = preOrder ? null : orderMessages[step];
 
   return (
     <motion.div
       variants={fadeUp}
       className="rounded p-5 pb-6"
-      style={{ backgroundImage: "linear-gradient(135deg, rgb(42, 58, 113) 0%, rgb(55, 70, 120) 50%, rgb(62, 78, 132) 100%)" }}
+      style={{
+        backgroundImage: preOrder
+          ? "none"
+          : "linear-gradient(135deg, rgb(42, 58, 113) 0%, rgb(55, 70, 120) 50%, rgb(62, 78, 132) 100%)",
+        backgroundColor: preOrder ? "#191c2f" : undefined,
+      }}
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={step}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.25 }}
-          className="flex flex-col gap-1.5 items-center pt-1 pb-4"
-        >
-          <span className="text-white text-[18px] font-medium leading-[1.3]">{msg.title}</span>
-          <span className="text-white/70 text-[14px] leading-[1.4] text-center">{msg.subtitle}</span>
-        </motion.div>
-      </AnimatePresence>
+      <div className="flex flex-col gap-1.5 items-center pt-1 pb-4">
+        {preOrder ? (
+          <>
+            <span className="text-white/60 text-[16px] font-medium leading-[1.3] text-center">
+              {"We'll deliver your order to your seat"}
+            </span>
+            <span className="text-white/40 text-[14px] leading-[1.4] text-center">
+              30 minutes after departure
+            </span>
+          </>
+        ) : (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.25 }}
+              className="flex flex-col gap-1.5 items-center"
+            >
+              <span className="text-white text-[18px] font-medium leading-[1.3]">{msg?.title}</span>
+              <span className="text-white/70 text-[14px] leading-[1.4] text-center">{msg?.subtitle}</span>
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </div>
 
       <div className="relative flex items-start justify-between px-2">
         <div className="absolute top-[23px] left-[48px] right-[48px] h-[2px] bg-white/10 rounded-full" />
-        <motion.div
-          className="absolute top-[23px] left-[48px] h-[2px] rounded-full bg-[#e31837]"
-          initial={{ width: 0 }}
-          animate={{
-            width: step === 0 ? 0 : step === 1 ? "calc(50% - 24px)" : "calc(100% - 96px)",
-          }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-        />
+        {!preOrder && (
+          <motion.div
+            className="absolute top-[23px] left-[48px] h-[2px] rounded-full bg-[#e31837]"
+            initial={{ width: 0 }}
+            animate={{
+              width: step === 0 ? 0 : step === 1 ? "calc(50% - 24px)" : "calc(100% - 96px)",
+            }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          />
+        )}
         {orderSteps.map((s, i) => {
-          const isActive = i <= step;
-          const isCurrent = i === step;
+          const isActive = preOrder ? false : i <= step;
+          const isCurrent = preOrder ? false : i === step;
           return (
             <div key={s.label} className="flex flex-col items-center gap-2.5 relative z-10" style={{ width: 80 }}>
               <div className="relative w-[42px] h-[42px] flex items-center justify-center">
@@ -323,7 +353,7 @@ export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasA
         </motion.h1>
 
         {/* Order status tracker — shown after placing an order OR in pre-order mode */}
-        {(hasActiveOrder || mode === "pre-order") && <HomeOrderTracker />}
+        {(hasActiveOrder || mode === "pre-order") && <HomeOrderTracker preOrder={mode === "pre-order"} />}
 
         {/* ===== PRE-ORDER MODE ===== */}
         {mode === "pre-order" && (
@@ -591,7 +621,7 @@ export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasA
         )}
       </AnimatePresence>
 
-      <FlightSheet />
+      <FlightSheet preOrder={mode === "pre-order"} />
     </div>
   );
 }
