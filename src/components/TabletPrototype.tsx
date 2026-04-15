@@ -470,7 +470,7 @@ function TabletConfirmation({ selectedDrink, onBackHome, isLandscape }: { select
 
 // --- Main Tablet Prototype ---
 export default function TabletPrototype() {
-  const [orientation, setOrientation] = useState<Orientation>("portrait");
+  const [orientation, setOrientation] = useState<Orientation>("landscape");
   const [screen, setScreen] = useState<TabletScreen>("home");
   const [selectedDrink, setSelectedDrink] = useState<string | undefined>(undefined);
 
@@ -489,20 +489,20 @@ export default function TabletPrototype() {
       {/* Orientation switcher */}
       <div className="flex items-center gap-2 bg-[var(--surface)] rounded-lg p-1">
         <button
-          onClick={() => setOrientation("portrait")}
-          className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
-            orientation === "portrait" ? "bg-white text-[var(--foreground)] shadow-sm" : "text-[var(--muted)]"
-          }`}
-        >
-          Portrait
-        </button>
-        <button
           onClick={() => setOrientation("landscape")}
           className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
             orientation === "landscape" ? "bg-white text-[var(--foreground)] shadow-sm" : "text-[var(--muted)]"
           }`}
         >
           Landscape
+        </button>
+        <button
+          onClick={() => setOrientation("portrait")}
+          className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
+            orientation === "portrait" ? "bg-white text-[var(--foreground)] shadow-sm" : "text-[var(--muted)]"
+          }`}
+        >
+          Portrait
         </button>
       </div>
 
