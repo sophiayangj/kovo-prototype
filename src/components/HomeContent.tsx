@@ -257,7 +257,20 @@ interface HomeContentProps {
   orderedDrink?: string;
 }
 
+const preOrderItems = [
+  { name: "Coffee", price: "Free", image: "/images/coffee.png", qty: 1 },
+  { name: "Snack Mix", price: "$9", image: "/images/snack-mix.png", qty: 1 },
+];
+
+const paidAddOns = [
+  { name: "Red Wine", price: "$9", image: "/images/red-wine.png" },
+  { name: "Beer", price: "$9", image: "/images/beer.png" },
+  { name: "Snack Mix", price: "$9", image: "/images/snack-mix.png" },
+  { name: "Cola", price: "Free", image: "/images/cola.png" },
+];
+
 export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasActiveOrder, orderedDrink }: HomeContentProps) {
+  const [mode, setMode] = useState<"default" | "pre-order">("default");
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [editingItem, setEditingItem] = useState<string | null>(null);
   const editTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -305,13 +318,151 @@ export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasA
         initial="initial"
         animate="animate"
       >
+        {/* Mode switcher */}
+        <motion.div variants={fadeUp} className="flex items-center gap-1 bg-[#191c2f] rounded p-1 self-start">
+          <button
+            onClick={() => setMode("default")}
+            className={`px-3 py-1.5 rounded text-[13px] font-medium transition-colors ${
+              mode === "default" ? "bg-[#323b62] text-white" : "text-[#788284]"
+            }`}
+          >
+            Default
+          </button>
+          <button
+            onClick={() => setMode("pre-order")}
+            className={`px-3 py-1.5 rounded text-[13px] font-medium transition-colors ${
+              mode === "pre-order" ? "bg-[#323b62] text-white" : "text-[#788284]"
+            }`}
+          >
+            Pre-ordered
+          </button>
+        </motion.div>
+
         <motion.h1 variants={fadeUp} className="text-white text-[24px] font-medium leading-[1.3]">
-          {hasActiveOrder ? "Welcome aboard, Sophia!" : "Welcome, Sophia!"}
+          {mode === "pre-order" ? "Welcome aboard, Sophia!" : hasActiveOrder ? "Welcome aboard, Sophia!" : "Welcome, Sophia!"}
         </motion.h1>
 
-        {/* Order status tracker — shown after placing an order */}
-        {hasActiveOrder && <HomeOrderTracker />}
+        {/* Order status tracker — shown after placing an order OR in pre-order mode */}
+        {(hasActiveOrder || mode === "pre-order") && <HomeOrderTracker />}
 
+        {/* ===== PRE-ORDER MODE ===== */}
+        {mode === "pre-order" && (
+          <>
+            {/* Your order card */}
+            <motion.div
+              variants={fadeUp}
+              className="rounded p-4"
+              style={{ backgroundImage: "linear-gradient(115deg, rgb(42, 58, 113) 0%, rgb(62, 78, 132) 100%)" }}
+            >
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-white text-[18px] font-medium leading-[1.3]">Your order</span>
+                  <motion.button onClick={onMenuTab} whileTap={{ scale: 0.98 }} className="flex items-center gap-1">
+                    <span className="text-white text-[14px] font-medium">Edit</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M5 8L8 11L11 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="rotate-[-90deg] origin-center" />
+                    </svg>
+                  </motion.button>
+                </div>
+                {preOrderItems.map((item, i) => (
+                  <div key={item.name} className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-[40px] h-[40px] flex items-center justify-center">
+                        <Image src={item.image} alt={item.name} width={40} height={40} className="object-contain" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-white text-[15px] font-medium leading-[1.3]">{item.name}</span>
+                        <span className="text-white/50 text-[13px] leading-[1.3]">Qty: {item.qty}</span>
+                      </div>
+                    </div>
+                    <span className="text-white/50 text-[14px] leading-[1.3]">{item.price}</span>
+                  </div>
+                ))}
+                <div className="h-px bg-white/10" />
+                <div className="flex items-center justify-between">
+                  <span className="text-white text-[15px] font-medium">Total</span>
+                  <span className="text-white text-[15px]">$9</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Add to your order — paid items prioritized */}
+            <motion.div variants={fadeUp} className="flex flex-col gap-4">
+              <h2 className="text-white text-[20px] font-medium leading-[1.3]">Add to your order</h2>
+              <div className="flex gap-3 overflow-x-auto pb-1">
+                {paidAddOns.map((item) => {
+                  const qty = quantities[item.name] || 0;
+                  const isEditing = editingItem === item.name;
+                  return (
+                    <motion.div
+                      key={item.name}
+                      whileTap={isEditing ? undefined : { scale: 0.98 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      className="flex-shrink-0 w-[138px] bg-[#191c2f] rounded overflow-hidden"
+                    >
+                      <div className="flex items-center justify-center px-[36px] py-3 bg-white/5">
+                        <div className="w-[66px] h-[66px] flex items-center justify-center">
+                          <Image src={item.image} alt={item.name} width={66} height={66} className="object-contain" />
+                        </div>
+                      </div>
+                      <div className="relative h-[66px] p-3 flex items-center">
+                        <motion.div className="flex flex-col gap-1" animate={{ opacity: isEditing && qty > 0 ? 0 : 1 }} transition={{ duration: 0.15 }}>
+                          <span className="text-white text-[16px] font-medium leading-[1.3]">{item.name}</span>
+                          <span className="text-[#788284] text-[16px] leading-[1.3]">{item.price}</span>
+                        </motion.div>
+                        <motion.div
+                          layoutId={`morph-preorder-${item.name}`}
+                          onClick={() => { if (qty === 0) increment(item.name); else if (!isEditing) openStepper(item.name); }}
+                          className={`ml-auto flex items-center justify-center flex-shrink-0 cursor-pointer ${
+                            qty > 0 && isEditing ? "bg-[#252a45] rounded h-9 px-3 gap-3" : qty > 0 ? "w-6 h-6 rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(19,30,53,0.7)]" : "w-6 h-6 rounded-full border border-[#788284]"
+                          }`}
+                          transition={{ type: "spring", stiffness: 500, damping: 32 }}
+                          style={{ position: qty > 0 && isEditing ? "absolute" : "relative", right: qty > 0 && isEditing ? 12 : undefined, left: qty > 0 && isEditing ? 12 : undefined }}
+                        >
+                          <AnimatePresence mode="wait" initial={false}>
+                            {qty > 0 && isEditing ? (
+                              <motion.div key="s" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }} className="flex items-center justify-between w-full">
+                                <motion.button whileTap={{ scale: 1.15 }} onClick={(e) => { e.stopPropagation(); decrement(item.name); }} className="w-5 h-5 flex items-center justify-center">
+                                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.83 6.42H5.83" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><path d="M8.17 6.42H8.17" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><rect x="2.92" y="3.5" width="8.17" height="9.33" rx="0.58" stroke="#788284" strokeWidth="1.17" /><path d="M1.75 3.5H12.25" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><path d="M4.67 1.17H9.33" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /></svg>
+                                </motion.button>
+                                <span className="text-white text-[16px] font-medium leading-none min-w-[14px] text-center">{qty}</span>
+                                <motion.button whileTap={{ scale: 1.15 }} onClick={(e) => { e.stopPropagation(); increment(item.name); }} className="w-5 h-5 flex items-center justify-center">
+                                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.92 7H11.08" stroke="white" strokeWidth="1.17" strokeLinecap="round" /><path d="M7 2.92V11.08" stroke="white" strokeWidth="1.17" strokeLinecap="round" /></svg>
+                                </motion.button>
+                              </motion.div>
+                            ) : qty > 0 ? (
+                              <motion.span key="b" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }} className="text-[#01061f] text-[14px] leading-[1.3]">{qty}</motion.span>
+                            ) : (
+                              <motion.div key="a" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }}>
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2V10M2 6H10" stroke="#788284" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </motion.div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            {/* More on board */}
+            <motion.div variants={fadeUp} className="flex flex-col gap-4">
+              <h2 className="text-white text-[20px] font-medium leading-[1.3]">More on board</h2>
+              <div className="flex gap-3">
+                {moreOnBoard.map((item) => (
+                  <motion.button key={item.name} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 500, damping: 30 }} className="flex-1 border border-[#323b62] rounded flex flex-col items-center justify-center gap-2 p-[17px] active:bg-[#323b62]/30">
+                    <Image src={item.icon} alt={item.name} width={20} height={20} />
+                    <span className="text-white text-[16px] leading-[1.3]">{item.name}</span>
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* ===== DEFAULT MODE ===== */}
+        {mode === "default" && (<>
         <motion.div
           variants={fadeUp}
           className="rounded p-4"
@@ -441,6 +592,7 @@ export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasA
             ))}
           </div>
         </motion.div>
+        </>)}
       </motion.div>
 
       {/* Floating View Cart button */}
