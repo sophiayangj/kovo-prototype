@@ -285,7 +285,7 @@ export default function CartContent({ cartItems, onCartChange, onBack, onAddItem
                 <span className="text-[#788284] text-[16px] leading-[1.3]">{item.price}</span>
               </div>
             </div>
-            <div className="h-9 px-3 bg-white/10 rounded inline-flex justify-center items-center gap-3">
+            <div className="h-9 px-3 bg-[#252a45] rounded inline-flex justify-center items-center gap-3">
               <motion.button
                 whileTap={{ scale: 1.15 }}
                 onClick={() => {
@@ -362,7 +362,7 @@ export default function CartContent({ cartItems, onCartChange, onBack, onAddItem
                       }}
                       className={`ml-auto flex items-center justify-center flex-shrink-0 cursor-pointer ${
                         qty > 0 && isEditing
-                          ? "bg-white/10 rounded h-9 px-3 gap-3"
+                          ? "bg-[#252a45] rounded h-9 px-3 gap-3"
                           : qty > 0
                           ? "w-6 h-6 rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(19,30,53,0.7)]"
                           : "w-6 h-6 rounded-full border border-[#788284]"
