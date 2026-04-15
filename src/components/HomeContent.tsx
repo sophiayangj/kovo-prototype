@@ -390,7 +390,7 @@ export default function HomeContent({ onDrinkSelect, onMenuTab, onViewCart, hasA
                       }}
                       className={`ml-auto flex items-center justify-center flex-shrink-0 cursor-pointer ${
                         qty > 0 && isEditing
-                          ? "bg-white/[0.08] rounded-[14px] h-[32px] px-3 gap-3"
+                          ? "bg-white/10 rounded h-9 px-3 gap-3"
                           : qty > 0
                           ? "w-6 h-6 rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(19,30,53,0.7)]"
                           : "w-6 h-6 rounded-full border border-[#788284]"

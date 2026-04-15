@@ -285,7 +285,7 @@ export default function CartContent({ cartItems, onCartChange, onBack, onAddItem
                 <span className="text-[#788284] text-[16px] leading-[1.3]">{item.price}</span>
               </div>
             </div>
-            <div className="bg-white/[0.08] h-[36px] rounded flex items-center gap-3 px-3">
+            <div className="h-9 px-3 bg-white/10 rounded inline-flex justify-center items-center gap-3">
               <motion.button
                 whileTap={{ scale: 1.15 }}
                 onClick={() => {
@@ -299,13 +299,15 @@ export default function CartContent({ cartItems, onCartChange, onBack, onAddItem
                     if (updated.length === 0) onBack();
                   }
                 }}
-                className="w-5 h-5 flex items-center justify-center"
+                className="w-[14px] h-[14px] flex items-center justify-center"
               >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M3 7H11" stroke="white" strokeOpacity="0.6" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
+                {item.qty === 1 ? (
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.83 6.42H5.83" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><path d="M8.17 6.42H8.17" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><rect x="2.92" y="3.5" width="8.17" height="9.33" rx="0.58" stroke="#788284" strokeWidth="1.17" /><path d="M1.75 3.5H12.25" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><path d="M4.67 1.17H9.33" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /></svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.92 7H11.08" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /></svg>
+                )}
               </motion.button>
-              <span className="text-white text-[16px] font-medium min-w-[16px] text-center">{item.qty}</span>
+              <span className="text-white text-[16px] font-medium text-center">{item.qty}</span>
               <motion.button
                 whileTap={{ scale: 1.15 }}
                 onClick={() => {
@@ -313,11 +315,9 @@ export default function CartContent({ cartItems, onCartChange, onBack, onAddItem
                   updated[i] = { ...item, qty: item.qty + 1 };
                   onCartChange(updated);
                 }}
-                className="w-5 h-5 flex items-center justify-center"
+                className="w-[14px] h-[14px] flex items-center justify-center"
               >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 3V11M3 7H11" stroke="white" strokeOpacity="0.6" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.92 7H11.08" stroke="white" strokeWidth="1.17" strokeLinecap="round" /><path d="M7 2.92V11.08" stroke="white" strokeWidth="1.17" strokeLinecap="round" /></svg>
               </motion.button>
             </div>
           </motion.div>
@@ -362,7 +362,7 @@ export default function CartContent({ cartItems, onCartChange, onBack, onAddItem
                       }}
                       className={`ml-auto flex items-center justify-center flex-shrink-0 cursor-pointer ${
                         qty > 0 && isEditing
-                          ? "bg-white/[0.08] rounded-[14px] h-[32px] px-3 gap-3"
+                          ? "bg-white/10 rounded h-9 px-3 gap-3"
                           : qty > 0
                           ? "w-6 h-6 rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(19,30,53,0.7)]"
                           : "w-6 h-6 rounded-full border border-[#788284]"

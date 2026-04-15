@@ -140,7 +140,7 @@ export default function MenuContent({ selectedDrink, onViewCart }: MenuContentPr
                       }}
                       className={`ml-auto flex items-center justify-center flex-shrink-0 cursor-pointer ${
                         qty > 0 && isEditing
-                          ? "bg-white/[0.08] rounded-[14px] h-[32px] px-3 gap-3"
+                          ? "bg-white/10 rounded h-9 px-3 gap-3"
                           : qty > 0
                           ? "w-6 h-6 rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(19,30,53,0.7)]"
                           : "w-6 h-6 rounded-full border border-[#788284]"
@@ -238,7 +238,7 @@ export default function MenuContent({ selectedDrink, onViewCart }: MenuContentPr
                         }}
                         className={`absolute z-10 flex items-center justify-center cursor-pointer ${
                           qty > 0 && isEditing
-                            ? "bottom-2 left-2 right-2 bg-[#252a45] rounded-full h-6 px-2"
+                            ? "bottom-2 left-2 right-2 bg-white/10 rounded h-9 px-3"
                             : qty > 0
                             ? "bottom-2 right-2 w-6 h-6 rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(19,30,53,0.7)]"
                             : "bottom-2 right-2 w-6 h-6 rounded-full border border-[#788284] bg-[#191c2f]"
@@ -248,12 +248,12 @@ export default function MenuContent({ selectedDrink, onViewCart }: MenuContentPr
                         <AnimatePresence mode="wait" initial={false}>
                           {qty > 0 && isEditing ? (
                             <motion.div key="s" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }} className="flex items-center justify-between w-full">
-                              <motion.button whileTap={{ scale: 1.15 }} onClick={(e) => { e.stopPropagation(); decrement(bevKey); }} className="w-4 h-4 flex items-center justify-center">
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5H8" stroke="white" strokeOpacity="0.7" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                              <motion.button whileTap={{ scale: 1.15 }} onClick={(e) => { e.stopPropagation(); decrement(bevKey); }} className="w-[14px] h-[14px] flex items-center justify-center">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.83 6.42H5.83" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><path d="M8.17 6.42H8.17" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><rect x="2.92" y="3.5" width="8.17" height="9.33" rx="0.58" stroke="#788284" strokeWidth="1.17" /><path d="M1.75 3.5H12.25" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /><path d="M4.67 1.17H9.33" stroke="#788284" strokeWidth="1.17" strokeLinecap="round" /></svg>
                               </motion.button>
-                              <span className="text-white text-[13px] font-medium leading-none">{qty}</span>
-                              <motion.button whileTap={{ scale: 1.15 }} onClick={(e) => { e.stopPropagation(); increment(bevKey); }} className="w-4 h-4 flex items-center justify-center">
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2V8M2 5H8" stroke="white" strokeOpacity="0.7" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                              <span className="text-white text-[16px] font-medium leading-none">{qty}</span>
+                              <motion.button whileTap={{ scale: 1.15 }} onClick={(e) => { e.stopPropagation(); increment(bevKey); }} className="w-[14px] h-[14px] flex items-center justify-center">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.92 7H11.08" stroke="white" strokeWidth="1.17" strokeLinecap="round" /><path d="M7 2.92V11.08" stroke="white" strokeWidth="1.17" strokeLinecap="round" /></svg>
                               </motion.button>
                             </motion.div>
                             ) : qty > 0 ? (
